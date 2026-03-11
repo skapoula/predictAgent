@@ -1,0 +1,50 @@
+data:
+  raw_path: viavi-dataset/raw/CellReports.csv
+  processed_dir: viavi-dataset/processed/
+  site_filter: "S1/"
+  rollup_minutes: 15
+
+features:
+  target_column: PRB.Util.DL
+  feature_columns:
+    - PRB.Util.UL
+    - RRC.ConnMean
+    - DRB.UEThpDl
+    - PEE.AvgPower
+    - PRB.Util.DL_roll_mean_4
+    - PRB.Util.DL_roll_mean_8
+    - PRB.Util.DL_roll_mean_16
+    - PRB.Util.DL_roll_mean_24
+    - PRB.Util.DL_roll_std_4
+    - PRB.Util.DL_roll_std_8
+    - PRB.Util.DL_roll_std_16
+    - PRB.Util.DL_roll_std_24
+    - PRB.Util.DL_ema_4
+    - PRB.Util.DL_ema_8
+    - PRB.Util.DL_ema_16
+    - PRB.Util.DL_ema_24
+    - PRB.Util.DL_lag_5
+    - PRB.Util.DL_lag_6
+    - PRB.Util.DL_lag_7
+    - PRB.Util.DL_lag_10
+    - PRB.Util.DL_lag_11
+    - PRB.Util.DL_lag_12
+  lookback_steps: 48
+  forecast_horizon: 1
+  val_fraction: 0.2
+  test_fraction: 0.2
+  scale_target: false
+
+training:
+  batch_size: 256
+  epochs: 30
+  learning_rate: 0.001
+  patience: 5
+  seed: 42
+
+registry:
+  model_dir: models/
+
+api:
+  host: 0.0.0.0
+  port: 8000
