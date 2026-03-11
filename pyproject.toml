@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "predictagent"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "scikit-learn>=1.3",
+    "tensorflow>=2.13",
+    "joblib>=1.3",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "fastapi>=0.104",
+    "uvicorn[standard]>=0.24",
+    "httpx>=0.25",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+]
+
+[project.scripts]
+predictagent-ingest = "predictagent.cli:ingest"
+predictagent-train = "predictagent.cli:train"
+predictagent-serve = "predictagent.cli:serve"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/predictagent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not regression'"
+markers = [
+    "unit: pure function tests — no I/O",
+    "integration: writes to tmp_path, uses fixture data",
+    "regression: full training run; excluded from default suite",
+]
