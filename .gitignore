@@ -2,6 +2,10 @@
 models/
 viavi-dataset/processed/
 
+# Raw dataset files (download with scripts/download_data.sh)
+viavi-dataset/raw/CellReports.csv
+viavi-dataset/raw/UEReports-flow.csv
+
 # Python
 __pycache__/
 *.pyc
