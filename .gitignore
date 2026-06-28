@@ -1,3 +1,6 @@
+# CodeGraphContext — per-repo KuzuDB index
+.codegraph
+
 # Generated artifacts
 models/
 viavi-dataset/processed/
