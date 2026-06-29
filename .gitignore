@@ -30,3 +30,6 @@ htmlcov/
 # IDE
 .vscode/
 .idea/
+
+# CodeGraphContext per-repo KuzuDB graph (large binary, rebuildable)
+.codegraphcontext/
