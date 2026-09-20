@@ -29,6 +29,7 @@ class ForecastRequest(BaseModel):
     @field_validator("rows")
     @classmethod
     def rows_not_empty(cls, v: list[TelemetryRow]) -> list[TelemetryRow]:
+        """Reject a series that carries no telemetry rows."""
         if not v:
             raise ValueError("rows must contain at least one TelemetryRow")
         return v

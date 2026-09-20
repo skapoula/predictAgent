@@ -5,8 +5,8 @@ import logging
 
 from fastapi import FastAPI
 
+from predictagent.api.routers.forecast import init_router, router
 from predictagent.config import Settings
-from predictagent.api.routers.forecast import router, init_router
 
 logger = logging.getLogger(__name__)
 

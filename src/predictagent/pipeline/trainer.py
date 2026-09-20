@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import joblib
@@ -184,13 +184,13 @@ def train_cell(
     test_pred = alpha * test_lstm + (1.0 - alpha) * test_gbr
 
     test_metrics = compute_metrics(test_y, test_pred)
-    version = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    version = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
     metrics = TrainingMetrics(
         cell_name=cell_name,
         mae=test_metrics["mae"],
         rmse=test_metrics["rmse"],
         mape=test_metrics["mape"],
-        trained_at=datetime.now(timezone.utc),
+        trained_at=datetime.now(UTC),
         model_version=version,
     )
     logger.info(

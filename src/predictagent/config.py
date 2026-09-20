@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class DataConfig(BaseModel):
+    """Raw input location, site filter and rollup window."""
+
     raw_path: Path
     processed_dir: Path
     site_filter: str
@@ -18,6 +20,8 @@ class DataConfig(BaseModel):
 
 
 class FeaturesConfig(BaseModel):
+    """Target, feature columns and train/val/test split geometry."""
+
     target_column: str
     feature_columns: list[str]
     lookback_steps: int
@@ -27,7 +31,7 @@ class FeaturesConfig(BaseModel):
     scale_target: bool
 
     @model_validator(mode="after")
-    def _fractions_sum_below_one(self) -> "FeaturesConfig":
+    def _fractions_sum_below_one(self) -> FeaturesConfig:
         if self.val_fraction + self.test_fraction >= 1.0:
             raise ValueError(
                 f"val_fraction ({self.val_fraction}) + test_fraction ({self.test_fraction}) must be < 1"
@@ -36,6 +40,8 @@ class FeaturesConfig(BaseModel):
 
 
 class TrainingConfig(BaseModel):
+    """Optimiser hyperparameters and early-stopping patience."""
+
     batch_size: int
     epochs: int
     learning_rate: float
@@ -44,15 +50,21 @@ class TrainingConfig(BaseModel):
 
 
 class RegistryConfig(BaseModel):
+    """Where trained models are written and read back."""
+
     model_dir: Path
 
 
 class ApiConfig(BaseModel):
+    """Bind address for the forecasting service."""
+
     host: str
     port: int
 
 
 class Settings(BaseModel):
+    """Top-level configuration assembled from the YAML config file."""
+
     data: DataConfig
     features: FeaturesConfig
     training: TrainingConfig

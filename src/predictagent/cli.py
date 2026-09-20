@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import logging
-import sys
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -33,8 +32,8 @@ def ingest() -> None:
 def train() -> None:
     """Run the full training pipeline: ingest → features → sequence → train."""
     from predictagent.config import load_settings
-    from predictagent.pipeline.ingestor import run_ingestion
     from predictagent.pipeline.features import run_feature_engineering
+    from predictagent.pipeline.ingestor import run_ingestion
     from predictagent.pipeline.sequencer import run_sequencing
     from predictagent.pipeline.trainer import run_training
 
@@ -54,8 +53,9 @@ def train() -> None:
 def serve() -> None:
     """Start the FastAPI inference server."""
     import uvicorn
-    from predictagent.config import load_settings
+
     from predictagent.api.app import create_app
+    from predictagent.config import load_settings
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     config_path = _parse_config_arg()

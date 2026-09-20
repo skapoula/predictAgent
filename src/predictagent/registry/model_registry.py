@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import joblib
@@ -67,7 +67,7 @@ class ModelRegistry:
         Returns:
             Version string (UTC timestamp).
         """
-        version = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
+        version = datetime.now(UTC).strftime("%Y%m%d_%H%M%S_%f")
         safe = _safe_name(cell_name)
         version_dir = self.model_dir / safe / version
         version_dir.mkdir(parents=True, exist_ok=True)
