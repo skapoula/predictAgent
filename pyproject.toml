@@ -33,6 +33,23 @@ predictagent-serve = "predictagent.cli:serve"
 [tool.hatch.build.targets.wheel]
 packages = ["src/predictagent"]
 
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+# The org-wide baseline (master-code-style.md) plus the annotation and docstring
+# rules it mandates. This repo had no ruff config at all until 2026-09-20.
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "ANN", "D100", "D101", "D102", "D103", "D104", "D400", "D415"]
+# ANN401 bans typing.Any; the rule requires annotations, not the absence of Any.
+ignore = ["ANN401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN", "D"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-m 'not regression'"
