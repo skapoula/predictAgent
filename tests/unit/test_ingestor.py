@@ -85,6 +85,26 @@ def test_rollup_reduces_row_count(raw_df):
 
 
 @pytest.mark.unit
+def test_rollup_keeps_timestamp_in_epoch_seconds(raw_df):
+    """interval_start must convert to epoch seconds whatever its datetime unit.
+
+    pandas returns datetime64[s] here, so a hardcoded nanosecond divisor
+    collapses every timestamp to the same value and the sequencer can no
+    longer infer a step.
+    """
+    from predictagent.pipeline.ingestor import derive_site_sector, rollup_to_interval
+
+    raw_df = raw_df.copy()
+    raw_df["SiteSector"] = raw_df["Viavi.Cell.Name"].apply(derive_site_sector)
+    rolled = rollup_to_interval(raw_df, interval_minutes=15)
+
+    expected = rolled["timestamp_dt"].dt.as_unit("s").astype("int64")
+    assert rolled["timestamp"].tolist() == expected.tolist()
+    for _, cell_rows in rolled.groupby("Viavi.Cell.Name"):
+        assert cell_rows["timestamp"].is_unique
+
+
+@pytest.mark.unit
 def test_run_ingestion_writes_output(tmp_path, sample_csv):
     from predictagent.pipeline.ingestor import run_ingestion
     from predictagent.config import DataConfig, FeaturesConfig, TrainingConfig, RegistryConfig, ApiConfig, Settings

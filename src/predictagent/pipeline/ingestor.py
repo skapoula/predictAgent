@@ -136,9 +136,9 @@ def rollup_to_interval(df: pd.DataFrame, interval_minutes: int) -> pd.DataFrame:
         .mean()
         .reset_index()
     )
-    grouped["timestamp"] = (
-        grouped["interval_start"].astype("int64") // 10**9
-    )
+    # .astype("int64") yields the column's own resolution, which pandas picks
+    # from the input (datetime64[s] here, not always ns) — normalise first.
+    grouped["timestamp"] = grouped["interval_start"].dt.as_unit("s").astype("int64")
     grouped["timestamp_dt"] = grouped["interval_start"]
     ordered = ["timestamp", "timestamp_dt", "Viavi.Cell.Name", "SiteSector", *metric_cols]
     grouped = grouped[ordered].sort_values(
