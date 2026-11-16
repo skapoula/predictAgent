@@ -55,7 +55,7 @@ uv run ruff check . && uv run ruff format .
 - **Timestamps are epoch seconds throughout.** `ingestor.rollup_to_interval` normalises
   with `dt.as_unit("s")`; a pandas op that silently promotes to nanoseconds breaks the
   sequencer downstream. Keep the unit assertion in any test that touches timestamps.
-- **`viavi-dataset/` is data, not source.** It is excluded from Serena's index. Never
+- **`viavi-dataset/` is data, not source.** Never
   read a full raw CSV into context — sample it with `head`/pandas in a shell instead.
 - **Tests never train for real.** Only the `regression` marker may fit a model; `unit`
   and `integration` build their frames from the `sample_csv`/`minimal_settings` fixtures
